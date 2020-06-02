@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class RequeteWebService {
-  readonly ROOT_URL;
+  readonly ROOT_URL: string;
 
   constructor(private http: HttpClient) {
     this.ROOT_URL = 'http://localhost:3000';
@@ -14,7 +14,7 @@ export class RequeteWebService {
   get(uri: string) {
     return this.http.get(`${this.ROOT_URL}/${uri}`);
   }
-
+  // charge: un objet qui sera renvoyé par les requetes (titre, etc)
   post(uri: string, charge: object) {
     return this.http.post(`${this.ROOT_URL}/${uri}`, charge);
   }

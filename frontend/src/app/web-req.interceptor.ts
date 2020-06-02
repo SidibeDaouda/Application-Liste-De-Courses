@@ -32,7 +32,9 @@ export class WebReqInterceptor implements HttpInterceptor {
           // Erreur 401 donc nous ne sommes pas autorisés
           // rafraîchir le token d'accès
           return this.refreshAccessToken().pipe(
+            // pipe renvoi un autre observable
             switchMap(() => {
+              // retourne un Observable pour chacune des valeurs de l'Observable d'origine.
               request = this.addAuthHeader(request);
               return next.handle(request);
             }),

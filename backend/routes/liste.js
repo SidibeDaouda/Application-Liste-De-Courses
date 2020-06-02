@@ -152,10 +152,10 @@ router.post("/:listeId/pieces", authentifier, (req, res) => {
 
 /**
  * PATCH /listes/:listeId/pieces/:pieceId
- * Mettre à jour une tâche existante
+ * Mettre à jour une piece existante
  */
 router.patch("/:listeId/pieces/:pieceId", authentifier, (req, res) => {
-    // mettre à jour une tâche existante (spécifiée par pieceId)
+    // mettre à jour une piece existante (spécifiée par pieceId)
     Liste.findOne({
             _id: req.params.listeId,
             _idUtilisateur: req.utilisateur_id,

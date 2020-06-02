@@ -58,7 +58,7 @@ export class AuthService {
   }
 
   getIdUtilisateur() {
-    return localStorage.getItem('user-id');
+    return localStorage.getItem('idUtilisateur');
   }
 
   setAccessToken(accessToken: string) {
@@ -70,13 +70,13 @@ export class AuthService {
     accessToken: string,
     refreshToken: string
   ) {
-    localStorage.setItem('user-id', idUtilisateur);
+    localStorage.setItem('idUtilisateur', idUtilisateur);
     localStorage.setItem('x-access-token', accessToken);
     localStorage.setItem('x-refresh-token', refreshToken);
   }
 
   private removeSession() {
-    localStorage.removeItem('user-id');
+    localStorage.removeItem('idUtilisateur');
     localStorage.removeItem('x-access-token');
     localStorage.removeItem('x-refresh-token');
     localStorage.clear();

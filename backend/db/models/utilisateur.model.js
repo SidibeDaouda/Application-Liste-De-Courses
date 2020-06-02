@@ -1,7 +1,12 @@
 const mongoose = require("mongoose");
+// permettant de filtrer, manipuler des object javascript facilement et de façon performante
 const _ = require("lodash");
+// token générés par un serveur lors de l’authentification d’un utilisateur sur une application Web, et qui sont ensuite transmis au client
+// Ils seront renvoyés avec chaque requête HTTP au serveur, ce qui lui permettra d’identifier l’utilisateur
 const jwt = require("jsonwebtoken");
+// fournit une fonctionnalité de hachage, de chiffrement, de déchiffrement, de signature et de vérification d'OpenSSL.
 const crypto = require("crypto");
+// fonction de hachage, crypter des mdp
 const bcrypt = require("bcryptjs");
 
 // JWT Secret
@@ -47,7 +52,6 @@ const UtilisateurSchema = new mongoose.Schema({
 UtilisateurSchema.methods.toJSON = function () {
   const utilisateur = this;
   const objetUtilisateur = utilisateur.toObject();
-
   // retourne le document sauf le mdp et les sessions
   return _.omit(objetUtilisateur, ["mdp", "sessions"]);
 };
@@ -63,6 +67,7 @@ UtilisateurSchema.methods.generateAccessAuthToken = function () {
         expiresIn: "15m",
       },
       (err, token) => {
+        // (Asynchrone) Si un rappel est fourni, le rappel est appelé avec le err ou le token
         if (!err) {
           resolve(token);
         } else {
@@ -81,7 +86,6 @@ UtilisateurSchema.methods.generateRefreshAuthToken = function () {
       if (!err) {
         // pas d'erreur
         let token = buf.toString("hex");
-
         return resolve(token);
       }
     });
@@ -160,13 +164,11 @@ UtilisateurSchema.statics.hasRefreshTokenExpired = (expiresAt) => {
 //  Avant l'enregistrement d'un utilisateur, ce code s'exécute
 UtilisateurSchema.pre("save", function (next) {
   let utilisateur = this;
-  let facteurCout = 10;
 
   if (utilisateur.isModified("mdp")) {
     // si le champ mdp a été modifié / modifié, exécute ce code.
-
     // genere et hash le mdp
-    bcrypt.genSalt(facteurCout, (err, salt) => {
+    bcrypt.genSalt(10, (err, salt) => {
       bcrypt.hash(utilisateur.mdp, salt, (err, hash) => {
         utilisateur.mdp = hash;
         next();

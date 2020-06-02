@@ -28,10 +28,8 @@ let verifierSession = (req, res, next) => {
                     error: "Utilisateur introuvable. s'assurer que le token d'actualisation et l'ID utilisateur sont corrects",
                 });
             }
-
             // si le code arrive ici - l'utilisateur a été trouvé
             // donc le token d'actualisation existe dans la base de données - mais nous devons encore vérifier s'il a expiré ou non
-
             req.utilisateur_id = utilisateur._id;
             req.objetUtilisateur = utilisateur;
             req.actualisationToken = actualisationToken;
@@ -64,11 +62,6 @@ let verifierSession = (req, res, next) => {
             res.status(401).send(e);
         });
 };
-
-
-
-
-
 
 /* ROUTES Utilisateur */
 
